@@ -34,12 +34,12 @@ Ensure you have the following installed:
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/tailwind-color-explorer.git
+   git clone https://github.com/shaik-baleeghuddin-kashif/tailwind-colors.git
    ```
 
 2. Navigate to the project directory:
    ```sh
-   cd tailwind-color-explorer
+   cd tailwind-colors
    ```
 
 3. Install dependencies:
@@ -60,7 +60,7 @@ Ensure you have the following installed:
    yarn start
    ```
 
-5. Open your browser and visit `http://localhost:3000` to view the application.
+5. Open your browser and visit `http://localhost:5173` to view the application.
 
 ## Usage
 

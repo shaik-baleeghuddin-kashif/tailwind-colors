@@ -268,9 +268,15 @@ const TailwindColors: React.FC = () => {
                 <MenuIcon />
               </IconButton>
             )}
+            {mode === 'dark' ? 
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Tailwind Colors
             </Typography>
+            :
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: "GrayText" }}>
+              Tailwind Colors
+            </Typography>
+            }
             <IconButton 
               onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
               color="inherit"
