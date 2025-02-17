@@ -31,7 +31,7 @@ import {
   Menu as MenuIcon,
   ContentCopy
 } from '@mui/icons-material';
-import { ThemeProvider, createTheme, useTheme, Theme } from '@mui/material/styles';
+import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Enhanced color data structure
@@ -69,10 +69,8 @@ const TAILWIND_COLORS: { [key: string]: string[] } = {
 
 const SHADE_NUMBERS = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
 
-
-
 // Enhanced theme configuration
-const getDesignTokens = (mode: 'light' | 'dark'): Partial<Theme> => ({
+const getDesignTokens = (mode: 'light' | 'dark') => ({
   palette: {
     mode,
     ...(mode === 'dark' ? {
@@ -128,7 +126,6 @@ const getDesignTokens = (mode: 'light' | 'dark'): Partial<Theme> => ({
   },
 });
 
-// Enhanced search component styling
 const SearchInput = styled(InputBase)(({ theme }) => ({
   width: '100%',
   borderRadius: theme.shape.borderRadius,
@@ -145,7 +142,6 @@ const SearchInput = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-// Helper functions
 const hexToRgb = (hex: string): string => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})` : '';
@@ -178,8 +174,7 @@ const TailwindColors: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Enhanced color processing
-  const colorFamilies = useMemo(() => 
+  const colorFamilies = useMemo(() =>
     Object.entries(TAILWIND_COLORS).map(([name, shades]) => {
       const processedShades = shades.map((hex, index) => {
         const rgb = hexToRgb(hex);
@@ -195,8 +190,8 @@ const TailwindColors: React.FC = () => {
         shades: processedShades,
         keywords: [name, ...processedShades.map(s => s.hex)]
       };
-    }).filter(family => 
-      family.keywords.some(k => 
+    }).filter(family =>
+      family.keywords.some(k =>
         k.toLowerCase().includes(searchQuery.toLowerCase())
       )
     ), [searchQuery]);
@@ -208,7 +203,6 @@ const TailwindColors: React.FC = () => {
     });
   };
 
-  // Enhanced color swatch component
   const ColorSwatch = ({ shade }: { shade: ColorShade }) => (
     <Tooltip title={`${shade.hex} - Click to copy`}>
       <Box
@@ -251,7 +245,7 @@ const TailwindColors: React.FC = () => {
 
   return (
     <ThemeProvider theme={colorMode}>
-      <Box sx={{ 
+      <Box sx={{
         bgcolor: 'background.default',
         minHeight: '100vh',
         transition: theme.transitions.create('background-color')
@@ -277,7 +271,7 @@ const TailwindColors: React.FC = () => {
               Tailwind Colors
             </Typography>
             }
-            <IconButton 
+            <IconButton
               onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
               color="inherit"
             >
@@ -287,177 +281,171 @@ const TailwindColors: React.FC = () => {
         </AppBar>
 
         <Container maxWidth="xl" sx={{ py: 6 }}>
-  {/* Header Section */}
-  <Box sx={{ textAlign: 'center', mb: 8 }}>
-    <motion.div
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-    >
-      <Typography
-        variant="h1"
-        component="h1"
-        sx={{
-          fontWeight: 900,
-          letterSpacing: '-0.05em',
-          mb: 2,
-          background: 'linear-gradient(45deg, #3b82f6 0%, #ec4899 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
-        }}
-      >
-        Tailwind Color Explorer
-      </Typography>
-      <Typography variant="h6" sx={{ mb: 4, color: 'text.secondary' }}>
-        Discover and copy Tailwind CSS color palettes with ease
-      </Typography>
-    </motion.div>
-
-    {/* Search */}
-    <Box sx={{ maxWidth: 600, mx: 'auto' }}>
-      <SearchInput
-        placeholder="Search colors..."
-        startAdornment={<Search sx={{ mr: 1 }} />}
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        fullWidth
-      />
-    </Box>
-  </Box>
-
-  {/* Color Palettes */}
-  <AnimatePresence>
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      {colorFamilies.map((family) => (
-        <motion.div
-          key={family.name}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          layout
-        >
-          <Paper 
-            elevation={2}
-            sx={{
-              borderRadius: 2,
-              overflow: 'hidden',
-              transition: theme.transitions.create(['box-shadow']),
-              '&:hover': {
-                boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
-              }
-            }}
-          >
-            <Box sx={{ 
-              p: 2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              bgcolor: family.shades[5].hex,
-            }}>
+          <Box sx={{ textAlign: 'center', mb: 8 }}>
+            <motion.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+            >
               <Typography
-                variant="h6"
+                variant="h1"
+                component="h1"
                 sx={{
-                  color: family.shades[5].contrast,
-                  fontWeight: 700,
-                  textTransform: 'capitalize',
+                  fontWeight: 900,
+                  letterSpacing: '-0.05em',
+                  mb: 2,
+                  background: 'linear-gradient(45deg, #3b82f6 0%, #ec4899 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
                 }}
               >
-                {family.name}
+                Tailwind Color Explorer
               </Typography>
-              <IconButton
-                onClick={() => handleCopyColor(family.shades[5].hex)}
-                sx={{ color: family.shades[5].contrast }}
-              >
-                <ContentCopy fontSize="small" />
-              </IconButton>
+              <Typography variant="h6" sx={{ mb: 4, color: 'text.secondary' }}>
+                Discover and copy Tailwind CSS color palettes with ease
+              </Typography>
+            </motion.div>
+
+            <Box sx={{ maxWidth: 600, mx: 'auto' }}>
+              <SearchInput
+                placeholder="Search colors..."
+                startAdornment={<Search sx={{ mr: 1 }} />}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                fullWidth
+              />
             </Box>
-            <Box sx={{ p: 2 }}>
-              <Box sx={{
-                display: 'flex',
-                gap: 2,
-                overflowX: 'auto',
-                pb: 1,
-              }}>
-                {family.shades.map((shade) => (
-                  <Box key={shade.name} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-                    <ColorSwatch shade={shade} />
-                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                      {shade.name}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
+          </Box>
+
+          <AnimatePresence>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {colorFamilies.map((family) => (
+                <motion.div
+                  key={family.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  layout
+                >
+                  <Paper
+                    elevation={2}
+                    sx={{
+                      borderRadius: 2,
+                      overflow: 'hidden',
+                      transition: theme.transitions.create(['box-shadow']),
+                      '&:hover': {
+                        boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
+                      }
+                    }}
+                  >
+                    <Box sx={{
+                      p: 2,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      bgcolor: family.shades[5].hex,
+                    }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: family.shades[5].contrast,
+                          fontWeight: 700,
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {family.name}
+                      </Typography>
+                      <IconButton
+                        onClick={() => handleCopyColor(family.shades[5].hex)}
+                        sx={{ color: family.shades[5].contrast }}
+                      >
+                        <ContentCopy fontSize="small" />
+                      </IconButton>
+                    </Box>
+                    <Box sx={{ p: 2 }}>
+                      <Box sx={{
+                        display: 'flex',
+                        gap: 2,
+                        overflowX: 'auto',
+                        pb: 1,
+                      }}>
+                        {family.shades.map((shade) => (
+                          <Box key={shade.name} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                            <ColorSwatch shade={shade} />
+                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                              {shade.name}
+                            </Typography>
+                          </Box>
+                        ))}
+                      </Box>
+                    </Box>
+                  </Paper>
+                </motion.div>
+              ))}
             </Box>
+          </AnimatePresence>
+        </Container>
+
+        <Zoom in={showScrollTop}>
+          <Fab
+            color="primary"
+            sx={{ position: 'fixed', bottom: 32, right: 32 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            <ExpandLess />
+          </Fab>
+        </Zoom>
+
+        <Snackbar
+          open={!!copiedColor}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          TransitionComponent={Fade}
+          autoHideDuration={2000}
+          onClose={() => setCopiedColor('')}
+        >
+          <Paper
+            elevation={3}
+            sx={{
+              px: 3,
+              py: 2,
+              borderRadius: 2,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2
+            }}
+          >
+            <Check color="success" />
+            <Typography>Copied {copiedColor} to clipboard</Typography>
           </Paper>
-        </motion.div>
-      ))}
-    </Box>
-  </AnimatePresence>
-</Container>
+        </Snackbar>
 
-{/* Scroll to Top */}
-<Zoom in={showScrollTop}>
-  <Fab
-    color="primary"
-    sx={{ position: 'fixed', bottom: 32, right: 32 }}
-    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-  >
-    <ExpandLess />
-  </Fab>
-</Zoom>
-
-{/* Custom Snackbar */}
-<Snackbar
-  open={!!copiedColor}
-  anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-  TransitionComponent={Fade}
-  autoHideDuration={2000}
-  onClose={() => setCopiedColor('')}
->
-  <Paper
-    elevation={3}
-    sx={{
-      px: 3,
-      py: 2,
-      borderRadius: 2,
-      display: 'flex',
-      alignItems: 'center',
-      gap: 2
-    }}
-  >
-    <Check color="success" />
-    <Typography>Copied {copiedColor} to clipboard</Typography>
-  </Paper>
-</Snackbar>
-
-{/* Mobile Drawer */}
-<Drawer
-  anchor="left"
-  open={drawerOpen}
-  onClose={() => setDrawerOpen(false)}
->
-  <List sx={{ width: 250 }}>
-    <ListItem>
-      <ListItemText primary="Tailwind Colors" primaryTypographyProps={{ variant: 'h6' }} />
-    </ListItem>
-    <Divider />
-    {Object.keys(TAILWIND_COLORS).map((colorName) => (
-      <ListItem 
-        button 
-        key={colorName}
-        onClick={() => {
-          setSearchQuery(colorName);
-          setDrawerOpen(false);
-        }}
-      >
-        <ListItemText primary={colorName} />
-      </ListItem>
-    ))}
-  </List>
-  </Drawer>
-    </Box>
-  </ThemeProvider>
-);
+        <Drawer
+          anchor="left"
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+        >
+          <List sx={{ width: 250 }}>
+            <ListItem>
+              <ListItemText primary="Tailwind Colors" primaryTypographyProps={{ variant: 'h6' }} />
+            </ListItem>
+            <Divider />
+            {Object.keys(TAILWIND_COLORS).map((colorName) => (
+              <ListItem
+                key={colorName}
+                component="button"
+                onClick={() => {
+                  setSearchQuery(colorName);
+                  setDrawerOpen(false);
+                }}
+                sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 1, border: 'none', background: 'transparent' }}
+              >
+                <ListItemText primary={colorName} />
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+      </Box>
+    </ThemeProvider>
+  );
 };
 
 export default TailwindColors;
-
